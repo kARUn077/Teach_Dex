@@ -74,7 +74,7 @@ export const login = async (req,res) => {
 }
 
 
-xport const getUserProfile = async (req,res) => {
+export const getUserProfile = async (req,res) => {
     try {
         const userId = req.id;
         const user = await User.findById(userId).select("-password").populate("enrolledCourses");
