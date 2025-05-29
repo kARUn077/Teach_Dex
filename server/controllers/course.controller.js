@@ -295,3 +295,23 @@ export const removeLecture = async (req,res) => {
         })
     }
 }
+
+export const getLectureById = async (req,res) => {
+    try {
+        const {lectureId} = req.params;
+        const lecture = await Lecture.findById(lectureId);
+        if(!lecture){
+            return res.status(404).json({
+                message:"Lecture not found!"
+            });
+        }
+        return res.status(200).json({
+            lecture
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"Failed to get lecture by id"
+        })
+    }
+}
