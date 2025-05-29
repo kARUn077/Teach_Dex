@@ -264,3 +264,34 @@ export const editLecture = async (req,res) => {
         })
     }
 }
+
+export const removeLecture = async (req,res) => {
+    try {
+        const {lectureId} = req.params;
+        const lecture = await Lecture.findByIdAndDelete(lectureId);
+        if(!lecture){
+            return res.status(404).json({
+                message:"Lecture not found!"
+            });
+        }
+        // delete the lecture from couldinary as well
+        if(lecture.publicId){
+            await deleteVideoFromCloudinary(lecture.publicId);
+        }
+
+        // Remove the lecture reference from the associated course
+        await Course.updateOne(
+            {lectures:lectureId}, // find the course that contains the lecture
+            {$pull:{lectures:lectureId}} // Remove the lectures id from the lectures array
+        );
+
+        return res.status(200).json({
+            message:"Lecture removed successfully."
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"Failed to remove lecture"
+        })
+    }
+}
