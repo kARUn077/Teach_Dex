@@ -26,3 +26,28 @@ import { toast } from "sonner";
     const action = type === "signup" ? registerUser : loginUser;
     await action(inputData);
   };
+
+
+  
+  useEffect(() => {
+    if(registerIsSuccess && registerData){
+      toast.success(registerData.message || "Signup successful.")
+    }
+    if(registerError){
+      toast.error(registerError.data.message || "Signup Failed");
+    }
+    if(loginIsSuccess && loginData){
+      toast.success(loginData.message || "Login successful.");
+      navigate("/");
+    }
+    if(loginError){ 
+      toast.error(loginError.data.message || "login Failed");
+    }
+  }, [
+    loginIsLoading,
+    registerIsLoading,
+    loginData,
+    registerData,
+    loginError,
+    registerError,
+  ]);
