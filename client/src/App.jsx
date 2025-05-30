@@ -55,7 +55,16 @@ const appRouter = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-     
+      {
+        path: "course-progress/:courseId",
+        element: (
+          <ProtectedRoute>
+            <PurchaseCourseProtectedRoute>
+            <CourseProgress />
+            </PurchaseCourseProtectedRoute>
+          </ProtectedRoute>
+        ),
+      },
 
       // admin routes start from here
       {
