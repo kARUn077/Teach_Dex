@@ -104,3 +104,15 @@ const appRouter = createBrowserRouter([
     ],
   },
 ]);
+
+function App() {
+  return (
+    <main>
+      <ThemeProvider>
+      <RouterProvider router={appRouter} />
+      </ThemeProvider>
+    </main>
+  );
+}
+
+export default App;
