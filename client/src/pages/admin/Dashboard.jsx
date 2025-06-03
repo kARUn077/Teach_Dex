@@ -3,6 +3,22 @@ import { useGetPurchasedCoursesQuery } from "@/features/api/purchaseApi";
 import React from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
+const Dashboard = () => {
+
+  const {data, isSuccess, isError, isLoading} = useGetPurchasedCoursesQuery();
+
+  if(isLoading) return <h1>Loading...</h1>
+  if(isError) return <h1 className="text-red-500">Failed to get purchased course</h1>
+
+  //
+  const {purchasedCourse} = data || [];
+
+  const courseData = purchasedCourse.map((course)=> ({
+    name:course.courseId.courseTitle,
+    price:course.courseId.coursePrice
+  }))
+
+  const totalRevenue = purchasedCourse.reduce((acc,element) => acc+(element.amount || 0), 0);
 
  const totalSales = purchasedCourse.length;
   return (
