@@ -1,78 +1,38 @@
-import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
-import { userLoggedIn, userLoggedOut } from "../authSlice";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const USER_API = "http://localhost:8080/api/v1/user/"
+const COURSE_PURCHASE_API = "http://localhost:8080/api/v1/purchase";
 
-export const authApi = createApi({
-    reducerPath:"authApi",
-    baseQuery:fetchBaseQuery({
-        baseUrl:USER_API,
-        credentials:'include'
+export const purchaseApi = createApi({
+  reducerPath: "purchaseApi",
+  baseQuery: fetchBaseQuery({
+    baseUrl: COURSE_PURCHASE_API,
+    credentials: "include",
+  }),
+  endpoints: (builder) => ({
+    createCheckoutSession: builder.mutation({
+      query: (courseId) => ({
+        url: "/checkout/create-checkout-session",
+        method: "POST",
+        body: { courseId },
+      }),
     }),
-    endpoints: (builder) => ({
-        registerUser: builder.mutation({
-            query: (inputData) => ({
-                url:"register",
-                method:"POST",
-                body:inputData
-            })
-        }),
-        loginUser: builder.mutation({
-            query: (inputData) => ({
-                url:"login",
-                method:"POST",
-                body:inputData
-            }),
-            async onQueryStarted(_, {queryFulfilled, dispatch}) {
-                try {
-                    const result = await queryFulfilled;
-                    dispatch(userLoggedIn({user:result.data.user}));
-                } catch (error) {
-                    console.log(error);
-                }
-            }
-        }),
-        logoutUser: builder.mutation({
-            query: () => ({
-                url:"logout",
-                method:"GET"
-            }),
-            async onQueryStarted(_, {queryFulfilled, dispatch}) {
-                try { 
-                    dispatch(userLoggedOut());
-                } catch (error) {
-                    console.log(error);
-                }
-            }
-        }),
-         loadUser: builder.query({
-            query: () => ({
-                url:"profile",
-                method:"GET"
-            }),
-            async onQueryStarted(_, {queryFulfilled, dispatch}) {
-                try {
-                    const result = await queryFulfilled;
-                    dispatch(userLoggedIn({user:result.data.user}));
-                } catch (error) {
-                    console.log(error);
-                }
-            }
-        }),
-        updateUser: builder.mutation({
-            query: (formData) => ({
-                url:"profile/update",
-                method:"PUT",
-                body:formData,
-                credentials:"include"
-            })
-        })
-    })
+    getCourseDetailWithStatus: builder.query({
+      query: (courseId) => ({
+        url: `/course/${courseId}/detail-with-status`,
+        method: "GET",
+      }),
+    }),
+    getPurchasedCourses: builder.query({
+      query: () => ({
+        url: `/`,
+        method: "GET",
+      }),
+    }),
+  }),
 });
+
 export const {
-    useRegisterUserMutation,
-    useLoginUserMutation,
-    useLogoutUserMutation,
-    useLoadUserQuery,
-    useUpdateUserMutation
-} = authApi;
+  useCreateCheckoutSessionMutation,
+  useGetCourseDetailWithStatusQuery,
+  useGetPurchasedCoursesQuery,
+} = purchaseApi;

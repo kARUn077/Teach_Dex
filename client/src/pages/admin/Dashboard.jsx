@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useGetPurchasedCoursesQuery } from "@/features/api/purchaseApi";
+import { useGetPurchasedCoursesQuery } from "@/features/api/authApi";
 import React from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
