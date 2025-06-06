@@ -115,3 +115,17 @@ export const courseApi = createApi({
     }),
   }),
 });
+export const {
+  useCreateCourseMutation,
+  useGetSearchCourseQuery,
+  useGetPublishedCourseQuery,
+  useGetCreatorCourseQuery,
+  useEditCourseMutation,
+  useGetCourseByIdQuery,
+  useCreateLectureMutation,
+  useGetCourseLectureQuery,
+  useEditLectureMutation,
+  useRemoveLectureMutation,
+  useGetLectureByIdQuery,
+  usePublishCourseMutation,
+} = courseApi;
