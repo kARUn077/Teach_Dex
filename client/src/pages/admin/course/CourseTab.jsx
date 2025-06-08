@@ -102,3 +102,55 @@ const CourseTab = () => {
 
     await editCourse({ formData, courseId });
   };
+
+
+   const publishStatusHandler = async (action) => {
+    try {
+      const response = await publishCourse({courseId, query:action});
+      if(response.data){
+        refetch();
+        toast.success(response.data.message);
+      }
+    } catch (error) {
+      toast.error("Failed to publish or unpublish course");
+    }
+  }
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(data.message || "Course update.");
+    }
+    if (error) {
+      toast.error(error.data.message || "Failed to update course");
+    }
+  }, [isSuccess, error]);
+
+  if(courseByIdLoading) return <h1>Loading...</h1>
+ 
+  return (
+    <Card>
+      <CardHeader className="flex flex-row justify-between">
+        <div>
+          <CardTitle>Basic Course Information</CardTitle>
+          <CardDescription>
+            Make changes to your courses here. Click save when you're done.
+          </CardDescription>
+        </div>
+        <div className="space-x-2">
+          <Button disabled={courseByIdData?.course.lectures.length === 0} variant="outline" onClick={()=> publishStatusHandler(courseByIdData?.course.isPublished ? "false" : "true")}>
+            {courseByIdData?.course.isPublished ? "Unpublished" : "Publish"}
+          </Button>
+          <Button>Remove Course</Button>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4 mt-5">
+          <div>
+            <Label>Title</Label>
+            <Input
+              type="text"
+              name="courseTitle"
+              value={input.courseTitle}
+              onChange={changeEventHandler}
+              placeholder="Ex. Fullstack developer"
+            />
