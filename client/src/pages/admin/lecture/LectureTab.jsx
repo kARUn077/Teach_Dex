@@ -74,3 +74,106 @@ const LectureTab = () => {
       }
     }
   };
+
+   const editLectureHandler = async () => {
+    console.log({ lectureTitle, uploadVideInfo, isFree, courseId, lectureId });
+
+    await edtiLecture({
+      lectureTitle,
+      videoInfo:uploadVideInfo,
+      isPreviewFree:isFree,
+      courseId,
+      lectureId,
+    });
+  };
+
+  const removeLectureHandler = async () => {
+    await removeLecture(lectureId);
+  }
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(data.message);
+    }
+    if (error) {
+      toast.error(error.data.message);
+    }
+  }, [isSuccess, error]);
+
+  useEffect(()=>{
+    if(removeSuccess){
+      toast.success(removeData.message);
+    }
+  },[removeSuccess])
+
+  return (
+    <Card>
+      <CardHeader className="flex justify-between">
+        <div>
+          <CardTitle>Edit Lecture</CardTitle>
+          <CardDescription>
+            Make changes and click save when done.
+          </CardDescription>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button disbaled={removeLoading} variant="destructive" onClick={removeLectureHandler}>
+            {
+              removeLoading ? <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin"/>
+              Please wait
+              </> : "Remove Lecture"
+            }
+          </Button>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <div>
+          <Label>Title</Label>
+          <Input
+            value={lectureTitle}
+            onChange={(e) => setLectureTitle(e.target.value)}
+            type="text"
+            placeholder="Ex. Introduction to Javascript"
+          />
+        </div>
+        <div className="my-5">
+          <Label>
+            Video <span className="text-red-500">*</span>
+          </Label>
+          <Input
+            type="file"
+            accept="video/*"
+            onChange={fileChangeHandler}
+            placeholder="Ex. Introduction to Javascript"
+            className="w-fit"
+          />
+        </div>
+        <div className="flex items-center space-x-2 my-5">
+          <Switch checked={isFree} onCheckedChange={setIsFree} id="airplane-mode" />
+          <Label htmlFor="airplane-mode">Is this video FREE</Label>
+        </div>
+
+        {mediaProgress && (
+          <div className="my-4">
+            <Progress value={uploadProgress} />
+            <p>{uploadProgress}% uploaded</p>
+          </div>
+        )}
+
+        <div className="mt-4">
+          <Button disabled={isLoading} onClick={editLectureHandler}>
+              {
+                isLoading ? <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin"/>
+                Please wait
+                </> : "Update Lecture"
+              }
+            
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+export default LectureTab;
