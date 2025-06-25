@@ -107,3 +107,14 @@ export const markAsCompleted = async (req, res) => {
     if (!courseProgress)
       return res.status(404).json({ message: "Course progress not found" });
 
+    courseProgress.lectureProgress.map(
+      (lectureProgress) => (lectureProgress.viewed = true)
+    );
+    courseProgress.completed = true;
+    await courseProgress.save();
+    return res.status(200).json({ message: "Course marked as completed." });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
