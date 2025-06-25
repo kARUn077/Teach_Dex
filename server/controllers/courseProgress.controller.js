@@ -82,5 +82,18 @@ export const updateLectureProgress = async (req, res) => {
     const lectureProgressLength = courseProgress.lectureProgress.filter(
       (lectureProg) => lectureProg.viewed
     ).length;
+
     const course = await Course.findById(courseId);
 
+    if (course.lectures.length === lectureProgressLength)
+      courseProgress.completed = true;
+
+    await courseProgress.save();
+
+    return res.status(200).json({
+      message: "Lecture progress updated successfully.",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
