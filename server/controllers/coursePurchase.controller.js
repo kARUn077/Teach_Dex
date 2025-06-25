@@ -186,3 +186,4 @@ export const getAllPurchasedCourse = async (_, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+// karun loves payal
