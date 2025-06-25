@@ -78,3 +78,9 @@ export const updateLectureProgress = async (req, res) => {
       });
     }
 
+    // if all lecture is complete
+    const lectureProgressLength = courseProgress.lectureProgress.filter(
+      (lectureProg) => lectureProg.viewed
+    ).length;
+    const course = await Course.findById(courseId);
+
