@@ -43,3 +43,20 @@ export const getCourseProgress = async (req, res) => {
     console.log(error);
   }
 };
+export const updateLectureProgress = async (req, res) => {
+  try {
+    const { courseId, lectureId } = req.params;
+    const userId = req.id;
+
+    // fetch or create course progress
+    let courseProgress = await CourseProgress.findOne({ courseId, userId });
+
+    if (!courseProgress) {
+      // If no progress exist, create a new record
+      courseProgress = new CourseProgress({
+        userId,
+        courseId,
+        completed: false,
+        lectureProgress: [],
+      });
+    }
