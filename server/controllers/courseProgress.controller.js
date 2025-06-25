@@ -43,6 +43,7 @@ export const getCourseProgress = async (req, res) => {
     console.log(error);
   }
 };
+
 export const updateLectureProgress = async (req, res) => {
   try {
     const { courseId, lectureId } = req.params;
@@ -60,3 +61,20 @@ export const updateLectureProgress = async (req, res) => {
         lectureProgress: [],
       });
     }
+    
+    // find the lecture progress in the course progress
+    const lectureIndex = courseProgress.lectureProgress.findIndex(
+      (lecture) => lecture.lectureId === lectureId
+    );
+
+    if (lectureIndex !== -1) {
+      // if lecture already exist, update its status
+      courseProgress.lectureProgress[lectureIndex].viewed = true;
+    } else {
+      // Add new lecture progress
+      courseProgress.lectureProgress.push({
+        lectureId,
+        viewed: true,
+      });
+    }
+
