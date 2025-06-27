@@ -1,13 +1,21 @@
 import mongoose from "mongoose";
 
-const lectureSchema = new mongoose.Schema({
-  lectureTitle: {
-    type: String,
-    required: true,
+const lectureSchema = new mongoose.Schema(
+  {
+    lectureTitle: {
+      type: String,
+      required: true,
+    },
+    videoInfo: {
+      videoUrl: { type: String, required: true },
+      publicId: { type: String, required: true },
+    },
+    isPreviewFree: {
+      type: Boolean,
+      default: false,
+    },
   },
-  videoUrl: { type: String },
-  publicId: { type: String },
-  isPreviewFree: { type: Boolean },
-},{timestamps:true});
+  { timestamps: true }
+);
 
 export const Lecture = mongoose.model("Lecture", lectureSchema);
