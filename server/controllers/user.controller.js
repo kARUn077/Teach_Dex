@@ -38,7 +38,6 @@ export const register = async (req,res) => {
         })
     }
 }
-
 export const login = async (req,res) => {
     try {
         const {email, password} = req.body;
@@ -72,8 +71,20 @@ export const login = async (req,res) => {
         })
     }
 }
-
-
+export const logout = async (_,res) => {
+    try {
+        return res.status(200).cookie("token", "", {maxAge:0}).json({
+            message:"Logged out successfully.",
+            success:true
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success:false,
+            message:"Failed to logout"
+        }) 
+    }
+}
 export const getUserProfile = async (req,res) => {
     try {
         const userId = req.id;
