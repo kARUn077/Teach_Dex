@@ -1,8 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @layer base {
   :root {
+    /* Light mode - kept minimal since we're focusing on dark */
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
@@ -22,45 +24,95 @@
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem
+    --radius: 0.5rem;
   }
+
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%
+    /* Magical Dark Theme */
+    --background: 26 0% 8%;          /* Darkest purple-black */
+    --foreground: 270 50% 92%;       /* Light lavender text */
+    
+    --card: 267 30% 12%;             /* Deep purple card bg */
+    --card-foreground: 270 50% 92%;
+    
+    --popover: 267 30% 12%;          /* Matching card */
+    --popover-foreground: 270 50% 92%;
+    
+    --primary: 272 76% 65%;          /* Vibrant magical purple */
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 267 34% 20%;        /* Darker purple */
+    --secondary-foreground: 270 50% 92%;
+    
+    --muted: 267 30% 25%;            /* Muted purple */
+    --muted-foreground: 270 30% 70%; /* Lighter muted text */
+    
+    --accent: 280 65% 40%;           /* Accent purple */
+    --accent-foreground: 270 50% 92%;
+    
+    --destructive: 0 84% 60%;        /* Kept red for warnings */
+    --destructive-foreground: 0 0% 100%;
+    
+    --border: 267 30% 25%;           /* Border color */
+    --input: 267 30% 25%;            /* Input fields */
+    --ring: 272 76% 65%;             /* Focus ring */
+    
+    /* Custom chart colors */
+    --chart-1: 272 76% 65%;          /* Primary purple */
+    --chart-2: 280 65% 60%;          /* Lighter purple */
+    --chart-3: 260 70% 50%;          /* Blue-purple */
+    --chart-4: 240 80% 60%;          /* Royal blue */
+    --chart-5: 220 90% 65%;          /* Electric blue */
   }
 }
+
 @layer base {
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
+    background-image: 
+      radial-gradient(at 80% 20%, hsla(272, 76%, 65%, 0.15) 0px, transparent 50%),
+      radial-gradient(at 20% 80%, hsla(280, 65%, 60%, 0.15) 0px, transparent 50%);
   }
+  
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-card;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary rounded-full hover:bg-primary/80;
+  }
+  
+  /* Input focus states */
+  input:focus, textarea:focus, select:focus {
+    @apply ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+}
+
+
+/* src/index.css */
+@layer utilities {
+  .hand-drawn-box {
+    border: 2px solid #537D5D;
+    border-radius: 15px 50px 15px 50px/50px 15px 50px 15px;
+    box-shadow: 3px 3px 0 rgba(83, 125, 93, 0.2);
+  }
+
+  .sketchy-underline {
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='4' viewBox='0 0 100 4' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,2 C20,5 40,0 60,3 C80,6 90,1 100,2' stroke='%23537D5D' fill='none' stroke-width='2'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    background-position: bottom;
+    padding-bottom: 6px;
+  }
+}
+
+body {
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(83, 125, 93, 0.05) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(83, 125, 93, 0.05) 0%, transparent 20%);
 }
